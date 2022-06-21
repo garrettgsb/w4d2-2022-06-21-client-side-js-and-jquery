@@ -48,34 +48,39 @@
     function createVampire(name) {
       const element = $('<div>').html(`🧛‍♀️ <span class='vampire-name'>${name}</span>`);
       element.on('click', (event) => {
-          event.stopPropagation();
-          openModalFor(element);
-        });
+        event.stopPropagation();
+        openModalFor(element);
+      });
       return element[0];
     }
 
-    function openModalFor(vampire) {
+    function openModalFor(element) {
+      console.log(element);
       const modal = $('<aside>').html(`
-        <h1>🧛‍♀️</h1>
-        <h2>New Vampire</h2>
-        <input id='new-vampire-name' />
-        <button id='new-vampire-create'>Create</button>
-        <button id='new-vampire-cancel'>Cancel</button>
+        <h1>🧛‍♂️</h1>
+        <h2>Create Vampire</h2>
+        <input id='new-vampire-name'>
+        <button id='create'>Create</button>
+        <button id='cancel'>Cancel</button>
       `);
+
       const input = modal.find('#new-vampire-name');
-      modal.find('#new-vampire-cancel').on('click', () => { modal.remove() });
-      modal.find('#new-vampire-create').on('click', () => {
-        $(createVampire(input.val())).appendTo(vampire);
-        modal.remove()
+      const createButton = modal.find('#create');
+      const cancelButton = modal.find('#cancel');
+
+      cancelButton.on('click', () => modal.remove());
+      createButton.on('click', () => {
+        element.append(createVampire(input.val()));
+        modal.remove();
       });
+
       modal.appendTo($('body'));
-      input.focus();
     }
 
     $(() => {
-      $('div').on('click', function(event) {
+      $('div').on('click', function (event) {
         event.stopPropagation();
-        openModalFor($(this));
+        openModalFor(this);
       });
     });
   </script>

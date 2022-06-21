@@ -21,6 +21,7 @@
     div > div {
       filter: hue-rotate(90deg);
     }
+
   </style>
 </head>
 <body>
@@ -92,23 +93,22 @@
       ]
     };
 
-    function createVampire(name) {
-      const element = document.createElement('div')
-      const content = `🧛‍♀️ <span class='vampire-name'>${name}</span>`
-      element.innerHTML = content;
-      return element;
-    }
-
     function buildVampireTree(node) {
-      const element = createVampire(node.name);
+      const vampire = document.createElement('div');
+      vampire.innerHTML = `🧛‍♂️ <span class='vampire-name'>${node.name}</span>`;
       node.children?.forEach(child => {
-        setTimeout(() => element.appendChild(buildVampireTree(child)), 2000);
+        vampire.append(buildVampireTree(child));
       });
-      return element;
+      return vampire;
     }
 
-    const vampireNodeTree = buildVampireTree(vampireTree);
-    document.querySelector('body').appendChild(vampireNodeTree);
+    // One result
+    const bodyTag = document.querySelector('body');
+
+    bodyTag.append(buildVampireTree(vampireTree));
+
+    // Many results
+    // document.querySelectorAll('');
   </script>
 </body>
 </html>
